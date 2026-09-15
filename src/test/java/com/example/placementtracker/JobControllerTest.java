@@ -52,4 +52,31 @@ void addJobTest() {
     System.out.println("POST /api/jobs test passed");
     System.out.println(response.getBody());
 }
+
+@Test
+void createJobWithoutCompanyShouldFail() {
+
+    RestTemplate restTemplate = new RestTemplate();
+
+    String url = "http://localhost:" + port + "/api/jobs";
+
+    Job job = new Job();
+
+    job.setCompany("");
+    job.setRole("Software Developer");
+    job.setSource("LinkedIn");
+    job.setJobLink("https://www.linkedin.com/");
+    job.setStatus("APPLIED");
+
+    try {
+
+        restTemplate.postForEntity(url, job, Job.class);
+
+    } catch (Exception e) {
+
+        System.out.println("POST /api/jobs rejected invalid job as expected");
+
+    }
+}
+
 }
